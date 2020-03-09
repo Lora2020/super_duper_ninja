@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    {% load static %}
+</head>
+<body>
+<!-- ------------------------------------------------------------ # Registration -->
+    <div class="row">
+        <div class="col-sm-6" style="background-color:rgb(73, 219, 224);" > 
+            <div class="text-center">
+    
+                <div class="Registration">
+                    
+                    <h2>Registration</h2>
+
+                    {% if messages %}
+                    <ul class="messages">    
+                        {% for message in messages %}    
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    <form action='/registration' method='POST'>
+                        {% csrf_token %}
+                        <input type="hidden" name="purpose" value="register" />
+                        <h4>First Name: <input type='text' name='first_name'></h4>
+                        <h4>Last Name: <input type='text' name='last_name'></h4>
+                        <h4>Email: <input type='text' name='email'></h4>
+                        <h4>Password: <input type='text' name='password'></h4>
+                        <h4>Confirm PW: <input type='text' name='confirm_PW'></h4>
+                        <input type='submit' class="btn btn-info" value='Register'> 
+                    </form>
+                </div>
+            </div>
+        </div>
+    <!-- --------------------------------------------------------- #Login -->
+        <div class="col-sm-6" style="background-color:rgb(79, 195, 199);" >    
+            <div class="Login">
+                <div class="text-center">
+
+                    <h2>Login</h2>
+                    {% if messages %}
+                    <ul class="messages">    
+                        {% for message in messages %}    
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <form action='/login' method='POST'>
+                        {% csrf_token %}
+                        <input type="hidden" name="purpose" value="register" />
+                        <h4>Email: <input type='text' name='email'></h4>
+                        <h4>Password: <input type='text' name='password'></h4>
+                        <input type='submit' class="btn btn-info" value='Log In'>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

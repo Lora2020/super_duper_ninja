@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wall</title>
+    {% load static %}
+</head>
+<body>
+    
+    <div class>
+        
+        <a href="http:/index"> Log Out</a>
+        <h2>CodingDojo Wall</h2>
+        <h4>Welcome {{first_name}} :)</h4>
+    </div>
+  
+    <div> <p>Post a message: </p>
+        <form action="/add_messages" method = "POST">
+            {% csrf_token %}
+            <input type="text" name="message_id">
+            <input type="submit" value= "Post a message">
+        </form>
+        <h3>Here's a list of messages!</h3>
+
+            {% for msg in all_messages %}
+            <h4>{{ msg.user.first_name }} {{ msg.user.last_name }} {{msg.created_at}} </h4>
+            <p>{{ msg.message_id }}</p>
+
+            <!-- ==================================================================delete_msg -->
+            <form action="/delete_msg," method = "POST">
+                {% if msg.user.id == request.session.userid %}
+                    <a href="/delete_msg/{{msg.id}}">Delete</a>
+                    <input type="hidden" value="{{msg.id}}" name ="message_id">
+                {% endif %}
+            </form>
+
+            <!-- =============================================================post comment -->
+            <div> <p>Post a comment: </p>
+                <form action="/add_comments" method = "POST">
+                    {% csrf_token %}
+                    <input type="text" name="comment">
+                    <input type="hidden" value="{{msg.id}}" name ="message_id">
+                    <input type="submit" value= "Post a comment">
+                </form>
+
+                
+                <p>comment</p>
+                {% for comment in msg.message_comments.all %}
+                    <h4>{{comment.user_id.first_name }} {{comment.user_id.last_name }} {{comment.created_at}} </h4>
+                    <p> {{comment.comment}}</p>
+
+            <!-- deleting comments 'form action' needs to be inside the 'for comment' with its own foem action.======== -->
+                    <form action="/delete_comment," method = "POST">
+                        {% if comment.user_id.id == request.session.userid %}
+                            <a href="/delete_comment/{{comment.id}}">Delete</a>
+                            <input type="hidden" value="{{comment.id}}" name ="comment_id">
+                        {% endif %}
+                    </form>
+                {% endfor %}
+            </div>
+            {% endfor %}
+    </div>
+</body>
+</html>
